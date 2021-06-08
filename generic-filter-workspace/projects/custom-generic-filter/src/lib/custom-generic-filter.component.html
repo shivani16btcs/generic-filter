@@ -1,0 +1,70 @@
+      
+<div class="content">
+    <!------- render selected filter  ------>
+    <div class="filter-list" *ngFor="let item of appliedFilter; let i = index">
+     <div *ngIf="i < showLimit" class="filter-item items display-list">
+         <span  class="cross">{{item.label}}&nbsp;:&nbsp;</span>
+         <span class="filtered-value">{{item.value}} </span> 
+         <span  class="cross" (click)="removeFilter(item)">&nbsp;&nbsp;<strong>X</strong></span>
+     </div>
+    </div>
+    <div *ngIf="showLimit < appliedFilter?.length " (click)="expandList()" class="content filter-item items count">
+         <span> +&nbsp;{{appliedFilter.length - itemsShowLimit}} </span> 
+    </div>
+    
+    <div class="modal-outside">
+    <div class="filter-icon" (click)="openFilter()" [ngClass]="isFilterApplied ? 'item-active':''" ><i class="fa fa-filter"></i></div>
+    <div class="filter-modal" *ngIf="dropDownOpen"> 
+     <div class="modal-content">
+         <!------- filter head ------>
+       <div class="filter-head">
+         <div class="modal-title"> Filter </div>
+         <div class="shift-right">
+           <div class="reset">
+             <span aria-hidden="true" (click)="reset()"> Reset</span>
+           </div>
+           <div
+             (click) = "modalClose()"
+             class="close_bar">
+             <span aria-hidden="true"><strong>X</strong></span>
+           </div>
+         </div>
+       </div>
+       <div class="content">
+         <!------- filter  sidebar ------>
+       <div class="filter-sidebar ">
+         <div class="show-items"  *ngFor="let item of categories" value="item">
+           <a (click)="showItem(item.key)" [ngClass]="checkSelectedCategory(item.key)||selectedKey == item.key  ? 'active':''">{{item.label}}</a>
+         </div>
+       </div>
+         <!------- filter selected item content ------>
+       <div class="filter-item-content scroll search-active">
+         <div *ngIf="selectedKey != 'time'">
+           <div *ngIf="allowSearchFilter" class="filter-search-bar">
+             <input  matInput type="text"  placeholder="Search.." [ngClass]="searchWord ? 'time-active':''" [(ngModel)]="searchWord" (input)="searchThis()">
+           </div>
+           <br>
+           <div class="show-items list-item"  *ngFor="let item of searchList" value="item">
+             <a (click)="selectItem(item)" [ngClass]="(selectedValue == item) ? 'active':''">{{item}}</a>
+          </div>
+         </div>
+         <div  *ngIf="selectedKey == 'time'" class="show-time">
+            <label [ngClass]="fromTime ? 'active':''">From Time</label>
+             <input matInput class="time-input" [ngClass]="fromTime? 'time-active':''" [(ngModel)]="fromTime" [ngxTimepicker]="picker2" placeholder="From" readonly>
+             <ngx-material-timepicker (timeSet)="setTime('fromTime',$event)"  #picker2></ngx-material-timepicker>
+             <br/> <br>
+             <label [ngClass]="toTime ? 'active':''">To Time</label> &nbsp;&nbsp;&nbsp;
+             <input matInput class="time-input"  [ngClass]="toTime? 'time-active':''" [(ngModel)]="toTime" [ngxTimepicker]="picker3" placeholder="To" readonly>
+             <ngx-material-timepicker (timeSet)="setTime('toTime',$event)"  #picker3></ngx-material-timepicker>
+         </div>
+       </div>
+     </div>
+         <!------- filter  foot ------>
+       <div class="filter-foot" (click)="Apply()">
+         Apply 
+       </div>
+     </div>
+    
+    </div>  
+    </div>
+    </div> 

@@ -1,0 +1,13 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/custom-generic-filter",
+  "lib": {
+    "entryFile": "src/public-api.ts"
+  },
+  "allowedNonPeerDependencies":[
+    "@types/lodash",
+    "moment",
+    "ngx-material-timepicker",
+    "tslib"
+  ]
+}
